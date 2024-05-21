@@ -1,28 +1,28 @@
 version: '2'
 services:
 
-  devcontainer:
-    build:
-      context: .
-      args:
-        DBT_VERSION: 1.0.0
-    volumes:
-      - ./dbt-example:/workspaces/covid_cases/
-    ports:
-      - 8080:8080
-
-  clickhouse:
-    image: yandex/clickhouse-server
-    ports:
-      - "8123:8123"
-      - "9000:9000"
-      - "9009:9009"
-
-    ulimits:
-      nproc: 65535
-      nofile:
-        soft: 262144
-        hard: 262144
+#  devcontainer:
+#    build:
+#      context: .
+#      args:
+#        DBT_VERSION: 1.0.0
+#    volumes:
+#      - ./dbt-example:/workspaces/covid_cases/
+#    ports:
+#      - 8080:8080
+#
+#  clickhouse:
+#    image: yandex/clickhouse-server
+#    ports:
+#      - "8123:8123"
+#      - "9000:9000"
+#      - "9009:9009"
+#
+#    ulimits:
+#      nproc: 65535
+#      nofile:
+#        soft: 262144
+#        hard: 262144
   postgres:
     image: postgres
     environment: 

@@ -56,7 +56,47 @@ insert into summing_ex values(1,2,'2') (2,3,'2') (3,4,'3');
 SELECT * from summing_ex final;
 
 
+create table counters (
+	counter_id UInt32
+) ENGINE = MergeTree() ORDER BY(counter_id);
 
+create table visits (
+	start_date DateTime not null,
+	counter_id UInt32,
+	count_visits UInt32,
+	user_id Nullable(Int32)
+) Engine = MergeTree()
+ORDER BY (start_date, counter_id);
+
+
+INSERT INTO visits values('2013-01-01 10:00:00', 1, 5, 4) ('2013-01-02 10:00:00', 1, 45, 3);
+INSERT INTO visits values('2013-01-01 10:00:00', 1, 4, 3) ('2013-01-02 10:00:00', 1, 2, 3);
+select * from visits;
+
+
+create table visits_aggregation (
+	start_date DateTime not null,
+	counter_id UInt32,
+	count_visits AggregateFunction(sum, UInt32),
+	user_id AggregateFunction(uniq, Nullable(Int32))
+) Engine = AggregatingMergeTree()
+ORDER BY (start_date, counter_id);
+
+select * from visits_aggregation;
+
+create materialized view mv_visits TO visits_aggregation
+as select
+	start_date,
+	counter_id,
+	sumState(count_visits) as count_visits,
+	uniqState(user_id) as user_id
+from visits
+Group by start_date, counter_id;
+
+select start_date, sumMerge(count_visits) as visits, uniqMerge(user_id) as users
+from mv_visits
+group by start_date
+order by start_date ;
 
 
 
