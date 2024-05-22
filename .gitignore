@@ -1,1 +1,5 @@
 /.idea/
+/cloud/.terraform/
+/cloud/.env
+/cloud/terraform.tfstate
+/cloud/.terraform.lock.hcl
