@@ -1,0 +1,10 @@
+
+version: 2
+
+models:
+  - name: stg_covid_cases
+    columns:
+      - name: date_rep
+        description: ""
+        tests:
+          - not_null

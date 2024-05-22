@@ -1,0 +1,65 @@
+version: 2
+
+sources:
+
+  - name: dbgen
+    schema: default
+    tags: ["dbgen"]
+    loader: S3
+    description: "Covid cases data stored in S3"
+
+    tables:
+      - name: src_covid_cases
+        columns:
+        - name: geo_id
+          tests:
+          - not_null
+          - length:
+              len: 2
+      - name: ref_populations
+        description: Worldwide population data by country
+        config:
+          column_types:
+            population: BIGINT
+        columns:
+          - name: country_code
+            description: ISO Alpha3 country code
+            tests:
+              - not_null
+              - length:
+                  len: 3
+          - name: population
+            description: Population figure for 2020
+            tests:
+              - not_null
+      - name: ref_country_codes
+        description: Country code look up tables
+        columns:
+          - name: country
+            description: Full country name
+            tests:
+              - not_null
+          - name: alpha_2code
+            description: ISO Alpha2 country code
+            tests:
+              - not_null
+              - length:
+                  len: 2
+          - name: alpha_3code
+            description: ISO Alpha3 country code
+            tests:
+              - not_null
+              - length:
+                  len: 3
+          - name: numeric_code
+            description: Numeric Country Code
+            tests:
+              - not_null
+          - name: latitude_avg
+            description: Average Latitude
+            tests:
+              - not_null
+          - name: longitude_avg
+            description: Average Longitude
+            tests:
+              - not_null

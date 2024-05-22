@@ -1,0 +1,9 @@
+
+version: 2
+
+models:
+  - name: f_covid_cases
+    description: Denormalized fact table
+    columns:
+    - name: report_date
+      description: ""
